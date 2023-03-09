@@ -43,7 +43,6 @@ jobs:
           tags: grindelwaldoff/yamdb_final
   deploy_on_server:
     runs-on: ubuntu-latest
-    name: Deploy on VM Yandex Cloud
     needs: docker-push
     steps:
       - name: executing remote ssh commands to deploy
