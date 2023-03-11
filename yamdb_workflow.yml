@@ -22,7 +22,7 @@ jobs:
           python -m flake8
           cd api_yamdb/
           python manage.py test
-          python pytest
+          pytest
   docker-push:
     runs-on: ubuntu-latest
     name: Push to Docker
