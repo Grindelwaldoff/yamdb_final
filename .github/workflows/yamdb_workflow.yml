@@ -66,5 +66,13 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> . env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             sudo docker-compose up -d
-
-  # telegram_check:
+  telegram_check:
+    runs-on: ubuntu-latest
+    needs: deploy_on_server
+    steps:
+      - name: Send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: ${{ github.workflow }} успешно выполнен!
