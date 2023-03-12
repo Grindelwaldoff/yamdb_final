@@ -78,6 +78,6 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} запущенный ${{ github.actor }} в репозитории ${{ github.repository }} успешно выполнен! \n
-            ${{ github.event.commits[0].message }}
-            https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          message: "${{ github.workflow }} запущенный ${{ github.actor }} в репозитории ${{ github.repository }} успешно выполнен! \n
+            Комментарий: ${{ github.event.commits[0].message }} \n
+            https://github.com/${{ github.repository }}/commit/${{github.sha}}"
