@@ -29,6 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Push to Docker
     needs: pep8
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -44,10 +45,11 @@ jobs:
         with: 
           push: true
           file: ../api_yamdb/Dockerfile
-          tags: grindelwaldoff/yamdb_final:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
   deploy_on_server:
     runs-on: ubuntu-latest
     needs: docker-push
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
@@ -56,8 +58,10 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cd yamdb
             sudo docker-compose stop
             sudo docker-compose rm web
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
