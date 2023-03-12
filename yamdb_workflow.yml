@@ -8,7 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
@@ -29,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Push to Docker
     needs: pep8
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -49,7 +48,7 @@ jobs:
   deploy_on_server:
     runs-on: ubuntu-latest
     needs: docker-push
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
@@ -79,4 +78,6 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} успешно выполнен!
+          message: ${{ github.workflow }} запущенный ${{ github.actor }} в репозитории ${{ github.repository }}!
+            ${{ github.event.commits[0].message }}
+            https://github.com/${{ github.repository }}/commit/${{github.sha}}
