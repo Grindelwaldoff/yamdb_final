@@ -58,8 +58,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd yamdb
-            sudo docker-compose stop
-            sudo docker-compose rm web
+            sudo docker-compose stop && sudo docker-compose stop nginx
+            sudo docker-compose rm web && sudo docker-compose rm nginx
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
